@@ -2,11 +2,13 @@ const express = require("express")
 const { engine } = require("express-handlebars")
 const app = express()
 const port = 3000
-// const restaurants = require('./public/jsons/restaurant.json').results
 const cssIndex = "/stylesheets/index.css" // index所使用的css
 const cssShow = "/stylesheets/show.css" // show所使用的css
-const methodOverride = require("method-override")
+const methodOverride = require("method-override") // 可以使用put,delete來表示更新及刪除動作
+
+// 引入所有model
 const db = require("./models")
+// 引入restaurant model
 const Restaurant = db.Restaurant
 
 // express初始化設定: template,static file, view path,post數據解析
