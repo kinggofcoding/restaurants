@@ -17,6 +17,33 @@ app.set("view engine", ".hbs")
 app.set("views", "./views")
 app.use(express.static("public"))
 
+
+// 搜尋符合條件餐廳
+app.get('/restaurants/search', async (req, res) => {
+  try {
+  const keyword = req.query.keyword?.trim()
+  const restaurants = await Restaurant.findAll({ raw: true })
+  const matchedRestaurants = keyword
+    ? restaurants.filter((restaurant) =>
+        Object.values(restaurant).some((property) => {
+          if (typeof property === 'string') {
+            return property.toLowerCase().includes(keyword.toLowerCase())
+          }
+          return false
+        })
+      )
+    : restaurants
+  res.render('index', {
+    restaurants: matchedRestaurants,
+    cssPath: cssIndex,
+    keyword,
+  })    
+  } catch (error) {
+    res.status(422).json(error)
+  }
+})
+
+
 // 讀取所有餐廳
 app.get("/restaurants", async (req, res) => {
   try {
@@ -127,28 +154,17 @@ app.put("/restaurants/:id", async (req, res) => {
 })
 
 // 刪除餐廳
+app.delete("/restaurants/:id", async (req, res) => {
+  try {
+    const id = req.params.id
+    await Restaurant.destroy({ where: { id } })
+    res.redirect("/restaurants")
+  } catch (error) {
+    res.status(422).json(error)
+  }
+})
 
-// 接收請求並處理: /restaurants
-// 如果在search bar有輸入關鍵字，將餐廳列表設定為符合條件之餐廳，否則為所有餐廳列表
-// 將資料放入index.hbs並返回給客戶端
-// app.get('/restaurants', (req, res) => {
-//   const keyword = req.query.keyword?.trim()
-//   const matchedRestaurants = keyword
-//     ? restaurants.filter((restaurant) =>
-//         Object.values(restaurant).some((property) => {
-//           if (typeof property === 'string') {
-//             return property.toLowerCase().includes(keyword.toLowerCase())
-//           }
-//           return false
-//         })
-//       )
-//     : restaurants
-//   res.render('index', {
-//     restaurants: matchedRestaurants,
-//     cssPath: cssIndex,
-//     keyword,
-//   })
-// })
+
 
 // 伺服器啟動並監聽port:3000
 app.listen(port, () => {
