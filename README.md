@@ -1,24 +1,21 @@
-# Restaurant List
+# Restaurants
 A simple web application for restaurant fanatic
 
 ## Features
-- listing restaurants from restaurant api
-- searching restaurants
-
-### Searching
-type the keyword of the restaurants in search bar
+- Create,Read,Update,Delete restaurant data
+- Searching restaurants
 
 ### Installing
 
 1.Clone the repository
 
 ```
-git clone https://github.com/kinggofcoding/restaurant-list.git
+git clone https://github.com/kinggofcoding/restaurants.git
 ```
-2.Move to the restaurantList directory
+2.Move to the restaurants directory
 
 ```
-cd restaurant-list
+cd restaurants
 ```
 3.Install npm packages
 
