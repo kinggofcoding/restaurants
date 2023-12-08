@@ -6,7 +6,8 @@ const restaurants = require('./public/jsons/restaurant.json').results
 const cssIndex = '/stylesheets/index.css' // index所使用的css
 const cssShow = '/stylesheets/show.css' // show所使用的css
 
-// express初始化設定: template,static file, view path
+// express初始化設定: template,static file, view path,post數據解析
+app.use(express.urlencoded({ extended: true}))
 app.engine('.hbs', engine({ extname: '.hbs' }))
 app.set('view engine', '.hbs')
 app.set('views', './views')
